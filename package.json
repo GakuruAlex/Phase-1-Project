@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/GakuruAlex/Phase-1-Project#readme",
   "dependencies": {
-    "sqlite3": "^5.0.11"
+    "sqlite3": "^5.0.11",
+     "dotenv":"16.0.1"
   }
 }
