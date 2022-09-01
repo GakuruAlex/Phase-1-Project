@@ -1,18 +1,18 @@
-document.addEventListener(`DOMContentLoaded`,lauchApp);
-require(`dotenv`).config();
-const apiKey=process.env.API_KEY;
 
 
-const options = {
-	method: 'GET',
-	headers: {
-		'X-RapidAPI-Key':apiKey,
-		'X-RapidAPI-Host': 'booking-com.p.rapidapi.com'
-	}
-};
+let data;
+const URLAPI = "https://api.chucknorris.io/jokes/random";
+function setData(dt) {
+    data = dt;
+}
 
-fetch('https://booking-com.p.rapidapi.com/v1/metadata/exchange-rates?currency=AED&locale=en-gb', options)
-	.then(response => response.json())
-	.then(response => console.log(response))
-	.catch(err => console.error(err));
-
+// MOST SIMPLE ONE
+function makeRequest1() {
+    fetch(URLAPI)
+        .then(response => response.json()).then( json => setData(json))
+        .catch(error => console.error(error))
+        .finally(() => {
+            console.log("Data received 1 --> ", data);
+            data = null;
+    });
+}
