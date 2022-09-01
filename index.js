@@ -1,6 +1,9 @@
 document.addEventListener(`DOMContentLoaded`,()=>{
+
 let message=document.querySelector(`board`);
+
 let battleship=document.querySelectorAll(`.battleship`);
+
 console.log(battleship)
 
 const URLAPI = "https://api.chucknorris.io/jokes/random";
@@ -22,11 +25,12 @@ for(let i=0;i<battleship.length;i++){
 
 battleship[i].addEventListener(`click`,()=>{
 
-
-
 let joke=makeRequest();
+
 console.log(joke)
+
 joke.then((response)=>response.json())
+
 .then((joke)=>{
 
 alert((joke.value))
@@ -40,16 +44,32 @@ alert((joke.value))
 
 
 })
+const model = {
+  boardSize: 7,
+  numShips: 3,
 
+  shipLength: 3,
+  shipsSunk: 0,
+
+  ships: [ { locations: [0, 0, 0], hits: ["", "", ""] },
+  { locations: [0, 0, 0], hits: ["", "", ""] },
+  { locations: [0, 0, 0], hits: ["", "", ""] } ],
+  }
 
 let generateShipLocations=function() {
+
   let locations;
-  for (var i = 0; i < this.numShips; i++) {
+
+  for (let i = 0; i < this.numShips; i++) {
 
   do {
+
   locations = this.generateShip();
+
   } while (this.collision(locations));
+
   this.ships[i].locations = locations;
+
   }
 }
 
@@ -91,13 +111,16 @@ return newShipLocations;
 
 let collision= function(locations) {
 
-  for (var i = 0; i < this.numShips; i++) {
+  for (let i = 0; i < this.numShips; i++) {
 
   let ship = model.ships[i];
 
-  for (var j = 0; j < locations.length; j++) {
+  for (let j = 0; j < locations.length; j++) {
+
   if (ship.locations.indexOf(locations[j]) >= 0) {
+
   return true;
+
   }
   }
   }
