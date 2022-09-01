@@ -1,3 +1,4 @@
+
 body, html {height:100%;}
 .container {
     height: 95vh;
@@ -9,7 +10,7 @@ body, html {height:100%;}
                          "left main ";
 
     grid-template-rows: 1fr 2fr ;
-    grid-template-columns: 1fr 4fr ;
+    grid-template-columns: 2fr 3fr ;
  }
  .cell-1 {
     background: deepskyblue;
@@ -20,7 +21,7 @@ body, html {height:100%;}
     grid-area: left;
  }
  .cell-3 {
-    background: limegreen;
+    background-image: url(./images/BB61_USS_Iowa_BB61_broadside_USN.jpg);
     grid-area: main;
 
  }
@@ -35,12 +36,22 @@ body, html {height:100%;}
 
 
 
- .battleship {
+ .battleshipGrid {
     height:100%; overflow:hidden;
     display: grid;
     justify-content: center;
     align-content: center;
-    max-height: 80vh;
-    grid-template-columns: repeat(5, 90px);
-    grid-template-rows: minmax(90px, auto) repeat(5, 90px);
+    max-height: 90vh;
+    grid-template-columns: repeat(7, 60px);
+    grid-template-rows: minmax(60px, auto) repeat(7, 60px);
+
+
+
+
     }
+
+
+.battleshipGrid button{
+    border-radius: 8px;
+   font-size: 10px;
+}

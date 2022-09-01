@@ -1,18 +1,50 @@
+document.addEventListener(`DOMContentLoaded`,()=>{
+let message=document.querySelector(`board`);
+let battleship=document.querySelectorAll(`.battleship`);
+console.log(battleship)
 
-
-let data;
 const URLAPI = "https://api.chucknorris.io/jokes/random";
-function setData(dt) {
-    data = dt;
-}
+
 
 // MOST SIMPLE ONE
-function makeRequest1() {
-    fetch(URLAPI)
-        .then(response => response.json()).then( json => setData(json))
-        .catch(error => console.error(error))
-        .finally(() => {
-            console.log("Data received 1 --> ", data);
-            data = null;
-    });
+async function makeRequest() {
+  let chuckJoke= await fetch(URLAPI)
+
+return chuckJoke;
+
+}
+
+
+
+
+
+for(let i=0;i<battleship.length;i++){
+
+battleship[i].addEventListener(`click`,()=>{
+
+
+
+let joke=makeRequest();
+console.log(joke)
+joke.then((response)=>response.json())
+.then((joke)=>{
+
+alert((joke.value))
+})
+
+})
+
+
+}
+
+
+
+})
+
+
+let ships={
+
+location:[start,start+1,start+2],shipStatus:["","",""],
+},
+
 }
