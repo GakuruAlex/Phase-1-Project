@@ -42,9 +42,13 @@ alert((joke.value))
 })
 
 
-let ships={
+let generateShipLocations=function() {
+  let locations;
+  for (var i = 0; i < this.numShips; i++) {
 
-location:[start,start+1,start+2],shipStatus:["","",""],
-},
-
+  do {
+  locations = this.generateShip();
+  } while (this.collision(locations));
+  this.ships[i].locations = locations;
+  }
 }
