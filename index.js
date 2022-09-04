@@ -2,44 +2,28 @@ document.addEventListener(`DOMContentLoaded`,()=>{
 
 let message=document.querySelector(`board`);
 
-let battleship=document.querySelectorAll(`.battleship`);
+let guesses=document.querySelectorAll(`.battleship`);
 
-console.log(battleship)
+
 
 const URLAPI = "https://api.chucknorris.io/jokes/random";
 
 
-// MOST SIMPLE ONE
-async function makeRequest() {
-  let chuckJoke= await fetch(URLAPI)
+
+async function makeRequest(url) {
+  let chuckJoke= await fetch(url)
 
 return chuckJoke;
 
 }
-
-
-
-
-
-for(let i=0;i<battleship.length;i++){
-
-battleship[i].addEventListener(`click`,()=>{
-
-let joke=makeRequest();
-
-console.log(joke)
-
-joke.then((response)=>response.json())
-
-.then((joke)=>{
-
-alert((joke.value))
-})
-
-})
-
-
+let buttonPressed=(e)=>{e.target.id}
+for(let guess of guesses){
+guess.addEventListener(`click`,buttonPressed)
 }
+
+
+
+
 
 
 
@@ -57,7 +41,7 @@ const model = {
   }
 
   let fire= function(guess) {
-    for (var i = 0; i < this.numShips; i++) {
+    for (let i = 0; i < this.numShips; i++) {
     let ship = this.ships[i];
     let index = ship.locations.indexOf(guess);
     if (index >= 0) {
