@@ -5,6 +5,19 @@ async function makeRequest(url) {
 return chuckJoke;
 
 }
+const model = {
+  boardSize: 7,
+  numShips: 3,
+
+  shipLength: 3,
+  shipsSunk: 0,
+
+  ships: [ { locations: [0, 0, 0], hits: ["", "", ""] },
+  { locations: [0, 0, 0], hits: ["", "", ""] },
+  { locations: [0, 0, 0], hits: ["", "", ""] } ],
+  }
+generateShipLocations();
+
 document.addEventListener(`DOMContentLoaded`,buttonPressed)
 
   let message=document.querySelector(`#gameplay`);
@@ -15,21 +28,36 @@ document.addEventListener(`DOMContentLoaded`,buttonPressed)
   let view=document.createElement(`h5`);
 
 function buttonPressed(e){
-  let guess=e.target.id;
-    console.log(`User guess is`,guess);
-    for (let i = 0; i < this.numShips; i++) {
-    let ship = this.ships[i];
-    let index = ship.locations.indexOf(guess);
-    if (index >= 0) {
-    ship.hits[index] = "hit";
-     view.textContent=`hit`;
-message.append(view);
 
-    if (this.isSunk(ship)) {
+  let guess=e.target.id;
+
+    console.log(`User guess is`,guess);
+
+    for (let i = 0; i < model.numShips; i++) {
+
+    let ship = model.ships[i];
+
+    console.log(`Ship is `,ship)
+
+    let index = ship.locations.indexOf(guess);
+
+    if (index >= 0) {
+
+    ship.hits[index] = "hit";
+
+       console.log(`hit`)
+
+     view.textContent=`hit`;
+
+     message.append(view);
+
+    if (isSunk(ship)) {
+
     view.innerHTML=`You sank my battleship`;
+
     message.append(view);
 
-    this.shipsSunk++;
+    model.shipsSunk++;
 
     }
 
@@ -56,26 +84,10 @@ guess.addEventListener(`click`,buttonPressed)
 }
 
 
-
-
-
-
-const model = {
-  boardSize: 7,
-  numShips: 3,
-
-  shipLength: 3,
-  shipsSunk: 0,
-
-  ships: [ { locations: [0, 0, 0], hits: ["", "", ""] },
-  { locations: [0, 0, 0], hits: ["", "", ""] },
-  { locations: [0, 0, 0], hits: ["", "", ""] } ],
-  }
-
-
     let isSunk=function(ship) {
 
-    for (let i = 0; i < this.shipLength; i++) {
+    for (let i = 0; i < model.shipLength; i++) {
+      console.log(`Ship hits is  `,ship.hits[i])
     if (ship.hits[i] !== "hit") {
 
     return false;}
@@ -84,44 +96,43 @@ const model = {
      else  return true;
     }}
 
-
-let generateShipLocations=function() {
+function generateShipLocations () {
 
   let locations;
 
-  for (let i = 0; i < this.numShips; i++) {
+  for (let i = 0; i < model.numShips; i++) {
 
   do {
 
-  locations = this.generateShip();
+  locations = generateShip();
 
-  } while (this.collision(locations));
+  } while (collision(locations));
 
-  this.ships[i].locations = locations;
+  model.ships[i].locations = locations;
 
   }
 }
 
 
-let generateShip=function() {
+function generateShip () {
   let direction = Math.floor(Math.random() * 2);
   let row, col;
 
 
   if (direction === 1) {
   // Generate a starting location for a horizontal ship
-  row = Math.floor(Math.random() * this.boardSize);
-  col = Math.floor(Math.random() * (this.boardSize - this.shipLength));
+  row = Math.floor(Math.random() * model.boardSize);
+  col = Math.floor(Math.random() * (model.boardSize - model.shipLength));
   } else {
 
   // Generate a starting location for a vertical ship
-  row = Math.floor(Math.random() * (this.boardSize - this.shipLength));
+  row = Math.floor(Math.random() * (model.boardSize - model.shipLength));
 
-col = Math.floor(Math.random() * this.boardSize);
+col = Math.floor(Math.random() * model.boardSize);
 }
 
 let newShipLocations = [];
-for (let i = 0; i < this.shipLength; i++) {
+for (let i = 0; i < model.shipLength; i++) {
 if (direction === 1) {
 
 newShipLocations.push(row + "" + (col + i));
@@ -134,13 +145,14 @@ newShipLocations.push((row + i) + "" + col);
 
 
 }
+console.log(`Location is`,newShipLocations)
 return newShipLocations;
 }
 
 
-let collision= function(locations) {
+ function collision(locations) {
 
-  for (let i = 0; i < this.numShips; i++) {
+  for (let i = 0; i < model.numShips; i++) {
 
   let ship = model.ships[i];
 
@@ -157,3 +169,4 @@ let collision= function(locations) {
   }
 
 
+generateShip();
