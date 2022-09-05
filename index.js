@@ -1,24 +1,58 @@
-document.addEventListener(`DOMContentLoaded`,()=>{
-
-let message=document.querySelector(`board`);
-
-let guesses=document.querySelectorAll(`.battleship`);
-
-
-
 const URLAPI = "https://api.chucknorris.io/jokes/random";
-
-
-
 async function makeRequest(url) {
   let chuckJoke= await fetch(url)
 
 return chuckJoke;
 
 }
-let buttonPressed=(e)=>{e.target.id}
+document.addEventListener(`DOMContentLoaded`,buttonPressed)
+
+  let message=document.querySelector(`#gameplay`);
+
+  let guesses=document.getElementsByClassName(`battleship`);
+  console.log(guesses)
+
+  let view=document.createElement(`h5`);
+
+function buttonPressed(e){
+  let guess=e.target.id;
+    console.log(`User guess is`,guess);
+    for (let i = 0; i < this.numShips; i++) {
+    let ship = this.ships[i];
+    let index = ship.locations.indexOf(guess);
+    if (index >= 0) {
+    ship.hits[index] = "hit";
+     view.textContent=`hit`;
+message.append(view);
+
+    if (this.isSunk(ship)) {
+    view.innerHTML=`You sank my battleship`;
+    message.append(view);
+
+    this.shipsSunk++;
+
+    }
+
+    return true;
+    }
+    }
+    view.innerHTML=`${guess}`;
+    message.append(view);
+    //view.displayMiss(guess);
+     view.innerHTML=`you missed`
+     message.append(view);
+   // view.displayMessage("You missed.");
+
+    return false;
+
+
+
+}
+
 for(let guess of guesses){
+
 guess.addEventListener(`click`,buttonPressed)
+
 }
 
 
@@ -26,8 +60,6 @@ guess.addEventListener(`click`,buttonPressed)
 
 
 
-
-})
 const model = {
   boardSize: 7,
   numShips: 3,
@@ -40,32 +72,6 @@ const model = {
   { locations: [0, 0, 0], hits: ["", "", ""] } ],
   }
 
-  let fire= function(guess) {
-    for (let i = 0; i < this.numShips; i++) {
-    let ship = this.ships[i];
-    let index = ship.locations.indexOf(guess);
-    if (index >= 0) {
-    ship.hits[index] = "hit";
-
-    view.displayHit(guess);
-
-    view.displayMessage("HIT!");
-    if (this.isSunk(ship)) {
-    view.displayMessage("You sank my battleship!");
-    this.shipsSunk++;
-
-    }
-
-    return true;
-    }
-    }
-    view.displayMiss(guess);
-
-    view.displayMessage("You missed.");
-
-    return false;
-
-    };
 
     let isSunk=function(ship) {
 
@@ -149,3 +155,5 @@ let collision= function(locations) {
   }
   return false;
   }
+
+
