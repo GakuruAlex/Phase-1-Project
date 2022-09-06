@@ -28,6 +28,11 @@ document.addEventListener(`DOMContentLoaded`,buttonPressed)
 
   let view=document.createElement(`h5`);
 
+function launchGame(){
+ let start= document.querySelector(`startGame`);
+ console.log(start);
+
+}
 function buttonPressed(e){
 
   let guess=e.target.id;
@@ -64,14 +69,10 @@ function buttonPressed(e){
 
     return true;
     }
-    view.innerHTML=`${guess}`;
-    message.append(view);
-    //view.displayMiss(guess);
-     view.innerHTML=`you missed`
-     message.append(view);
+
     }
 
-   // view.displayMessage("You missed.");
+
 
     return false;
 
@@ -124,12 +125,14 @@ function generateShip () {
   // Generate a starting location for a horizontal ship
   row = Math.floor(Math.random() * model.boardSize);
   col = Math.floor(Math.random() * (model.boardSize - model.shipLength));
+  console.log(`For horizontal ship row is ${row} column is  ${col}    `)
   } else {
 
   // Generate a starting location for a vertical ship
   row = Math.floor(Math.random() * (model.boardSize - model.shipLength));
 
 col = Math.floor(Math.random() * model.boardSize);
+console.log(`For vertical ship row is ${row} column is  ${col}    `)
 }
 
 let newShipLocations = [];
@@ -137,16 +140,17 @@ for (let i = 0; i < model.shipLength; i++) {
 if (direction === 1) {
 
 newShipLocations.push(row + "" + (col + i));
+console.log(` For horizontal ship row is ${row} and col + i is ${col + i}New ships location is ${newShipLocations}`)
 
 } else {
 newShipLocations.push((row + i) + "" + col);
+console.log(`For vertical ship  row is ${row + i} and col + i is ${col}New ships location is ${newShipLocations}`)
+
+}
 
 
 }
 
-
-}
-console.log(`Location is`,newShipLocations)
 return newShipLocations;
 }
 
