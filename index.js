@@ -35,9 +35,9 @@ function launchGame(){
 }
 function buttonPressed(e){
 
-  let guess=e.target.id;
+  let userGuess=e.target.id;
 
-    console.log(`User guess is`,guess);
+
 
     for (let i = 0; i < model.numShips; i++) {
 
@@ -45,7 +45,7 @@ function buttonPressed(e){
 
     console.log(`Ship ${i} is `,ship)
 
-    let index = ship.locations.indexOf(guess);
+    let index = ship.locations.indexOf(userGuess);
 
     if (index >= 0) {
 
@@ -54,6 +54,8 @@ function buttonPressed(e){
        console.log(`hit`)
 
      view.textContent=`hit`;
+     e.target.textContent='hit'
+e.target.backgroundColor=`red`
 
      message.append(view);
 
@@ -83,6 +85,7 @@ function buttonPressed(e){
 for(let guess of guesses){
 
 guess.addEventListener(`click`,buttonPressed)
+
 
 }
 
