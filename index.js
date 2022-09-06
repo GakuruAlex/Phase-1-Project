@@ -12,11 +12,12 @@ const model = {
   shipLength: 3,
   shipsSunk: 0,
 
-  ships: [ { locations: [0, 0, 0], hits: ["", "", ""] },
-  { locations: [0, 0, 0], hits: ["", "", ""] },
-  { locations: [0, 0, 0], hits: ["", "", ""] } ],
+  ships: [ { locations: [0, 0, 0], hits: ["", "", ""] ,numOfHits:0},
+  { locations: [0, 0, 0], hits: ["", "", ""] ,numOfHits:0},
+  { locations: [0, 0, 0], hits: ["", "", ""] ,numOfHits:0} ],
   }
-generateShipLocations();
+  generateShipLocations ()
+
 
 document.addEventListener(`DOMContentLoaded`,buttonPressed)
 
@@ -37,14 +38,14 @@ function buttonPressed(e){
 
     let ship = model.ships[i];
 
-    console.log(`Ship is `,ship)
+    console.log(`Ship ${i} is `,ship)
 
     let index = ship.locations.indexOf(guess);
 
     if (index >= 0) {
 
     ship.hits[index] = "hit";
-
+     ship.numOfHits++;
        console.log(`hit`)
 
      view.textContent=`hit`;
@@ -63,12 +64,13 @@ function buttonPressed(e){
 
     return true;
     }
-    }
     view.innerHTML=`${guess}`;
     message.append(view);
     //view.displayMiss(guess);
      view.innerHTML=`you missed`
      message.append(view);
+    }
+
    // view.displayMessage("You missed.");
 
     return false;
@@ -87,14 +89,13 @@ guess.addEventListener(`click`,buttonPressed)
     let isSunk=function(ship) {
 
     for (let i = 0; i < model.shipLength; i++) {
-      console.log(`Ship hits is  `,ship.hits[i])
-    if (ship.hits[i] !== "hit") {
+if(ship.numOfHits===3){
+  return true;
+}
+return false;
 
-    return false;}
-
-
-     else  return true;
-    }}
+    }
+  }
 
 function generateShipLocations () {
 
@@ -168,5 +169,3 @@ return newShipLocations;
   return false;
   }
 
-
-generateShip();
