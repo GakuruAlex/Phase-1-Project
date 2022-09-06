@@ -82,9 +82,9 @@ e.target.backgroundColor=`red`
 
 }
 
-for(let guess of guesses){
+for(let guessButton of guesses){
 
-guess.addEventListener(`click`,buttonPressed)
+guessButton.addEventListener(`click`,buttonPressed)
 
 
 }
@@ -171,7 +171,9 @@ return newShipLocations;
   return true;
 
   }
+
   }
+
   }
   return false;
   }
