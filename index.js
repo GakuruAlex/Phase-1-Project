@@ -6,8 +6,8 @@ async function makeRequest(url) {
 return chuckJoke;
 
 }
-//Post username and highscore
-function getUserName(){
+//Post usernae to server
+function postUserName(){
 let nameOfPlayer;
   const inputForm = document.querySelector('form');
 
@@ -17,6 +17,11 @@ let nameOfPlayer;
 
     nameOfPlayer=input.value;
 
+    postData(serverURL, nameOfPlayer)
+    .then((data) => {
+      console.log(data);
+    })
+
 
 
   });
@@ -25,12 +30,31 @@ let nameOfPlayer;
 
 }
 
-console.log(`name is `,getUserName())
+async function postData(url , name) {
+  const userData={
+"nickname":name,
+  }
+  const response = await fetch(url, {
+    method: 'POST',
+
+    headers: {
+      'Content-Type': 'application/json',
+       'Accept':'application/json'
+      },
+      body: JSON.stringify(userData)   });
+  return response.json();
+}
+
+function fetchSavedName(url){
+let playerNickname=fetch(url);
+playerNickname.then()
+
+}
 
 
 
 function jokeIfMoreThan20Guesses(){
-  let name=getUserName();
+  let name;
 makeRequest(URLAPI)
 .then((joke)=>joke.json())
 .then(((norrisJoke)=>{
