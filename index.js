@@ -48,10 +48,10 @@ async function postData(url , name) {
 
 //Get a joke to display if player exceeds 20 guesses to sink all battleships
 
-function jokeIfMoreThan20Guesses(){
+async function jokeIfMoreThan20Guesses(){
 
-let joke=makeRequest(URLAPI)
-joke.then((joke)=>joke.json())
+let joke=await makeRequest(URLAPI);
+
 return joke;
 }
 
@@ -136,10 +136,10 @@ function buttonPressed(e){
   if(numOfGuesses>21){
 
 
-    jokeIfMoreThan20Guesses()
+    jokeIfMoreThan20Guesses().then((someJoke)=>someJoke.json())
+    .then((someJoke)=>{
 
-    .then((joke)=>{
-  alert(`${userInfo.pop().nickname} you exceeded  20 guesses ${joke}`);
+  return alert(`${userInfo.pop().nickname} you exceeded  20 guesses ${someJoke.value}`);
     })
   }
 
