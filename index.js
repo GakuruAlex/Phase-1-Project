@@ -6,7 +6,7 @@ async function makeRequest(url) {
 return chuckJoke;
 
 }
-//Post usernae to server
+//Post username to server
 function postUserName(){
 let nameOfPlayer;
   const inputForm = document.querySelector('form');
@@ -30,7 +30,7 @@ let nameOfPlayer;
 
 }
 
-async function postData(url , name) {
+async function patchData(url , name) {
   const userData={
 "nickname":name,
   }
@@ -42,16 +42,28 @@ async function postData(url , name) {
        'Accept':'application/json'
       },
       body: JSON.stringify(userData)   });
-  return response.json();
+  return response;
 }
 
-function fetchSavedName(url){
-let playerNickname=fetch(url);
-playerNickname.then()
+//patch db to add player number of guesses to player nickname
 
+async function postData(url , guess) {
+  const userData={
+"playerGuess":guess,
+  }
+  const response = await fetch(url, {
+    method: 'PATCH',
+
+    headers: {
+      'Content-Type': 'application/json',
+       'Accept':'application/json'
+      },
+      body: JSON.stringify(userData)   });
+  return response;
 }
 
 
+//Get a joke to display if player exceeds 20 guesses to sink all battleships
 
 function jokeIfMoreThan20Guesses(){
   let name;
@@ -76,7 +88,7 @@ const model = {
   { locations: [0, 0, 0], hits: ["", "", ""] ,numOfHits:0} ],
   }
 
-console.log(generateShipLocations());
+generateShipLocations()
 
 document.addEventListener(`DOMContentLoaded`,buttonPressed);
 
@@ -138,13 +150,20 @@ function buttonPressed(e){
 
     }
      if(model.shipsSunk===3){
-      if(numOfGuesses>20){
-        jokeIfMoreThan20Guesses(userName);
-       }
-       else{
-      alert(`Well Done ${userName} you sunk all ships in ${userGuess} guesses`);
-       }
-     }
+      patchData(serverURL,numOfGuesses);
+   makeRequest(serverURL)
+.then((response)=>response.json())
+.then((data)=>{
+  console.log(data)
+  if(data.playerGuess>20){
+    jokeIfMoreThan20Guesses(data.nickname);
+   }
+   else{
+  alert(`Well Done ${data.nickname} you sunk all ships in ${data.playerGuess} guesses`);
+   }
+ })
+}
+
 
     return true;
     }
@@ -221,7 +240,7 @@ newShipLocations.push((row + i) + "" + col);
 
 
 }
-
+console.log(newShipLocations)
 return newShipLocations;
 }
 
