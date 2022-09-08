@@ -6,7 +6,7 @@ async function makeRequest(url) {
 return chuckJoke;
 
 }
-//Post username to server
+//Post username   to server
 function postUserName(){
 let nameOfPlayer;
   const inputForm = document.querySelector('form');
@@ -18,21 +18,19 @@ let nameOfPlayer;
     nameOfPlayer=input.value;
 
     postData(serverURL, nameOfPlayer)
-    .then((data) => {
-      console.log(data);
-    })
+
 
 
 
   });
   inputForm.reset();
 
-
+return nameOfPlayer;
 }
-
-async function patchData(url , name) {
+postUserName()
+async function postData(url , name) {
   const userData={
-"nickname":name,
+"nickname":name
   }
   const response = await fetch(url, {
     method: 'POST',
@@ -45,34 +43,16 @@ async function patchData(url , name) {
   return response;
 }
 
-//patch db to add player number of guesses to player nickname
 
-async function postData(url , guess) {
-  const userData={
-"playerGuess":guess,
-  }
-  const response = await fetch(url, {
-    method: 'PATCH',
-
-    headers: {
-      'Content-Type': 'application/json',
-       'Accept':'application/json'
-      },
-      body: JSON.stringify(userData)   });
-  return response;
-}
 
 
 //Get a joke to display if player exceeds 20 guesses to sink all battleships
 
 function jokeIfMoreThan20Guesses(){
-  let name;
-makeRequest(URLAPI)
-.then((joke)=>joke.json())
-.then(((norrisJoke)=>{
-  console.log(`All dotcoms sunk`)
-alert(`${name} your reward is ${norrisJoke}`)
-}))
+
+let joke=makeRequest(URLAPI)
+joke.then((joke)=>joke.json())
+return joke;
 }
 
 let numOfGuesses=0;
@@ -150,21 +130,27 @@ function buttonPressed(e){
 
     }
      if(model.shipsSunk===3){
-      patchData(serverURL,numOfGuesses);
-   makeRequest(serverURL)
-.then((response)=>response.json())
-.then((data)=>{
-  console.log(data)
-  if(data.playerGuess>20){
-    jokeIfMoreThan20Guesses(data.nickname);
-   }
+      let name=makeRequest(serverURL)
+      name.then((response)=>(response.json()))
+      .then((userInfo)=>{
+  if(numOfGuesses>21){
+
+
+    jokeIfMoreThan20Guesses()
+
+    .then((joke)=>{
+  alert(`${userInfo.pop().nickname} you exceeded  20 guesses ${joke}`);
+    })
+  }
+
+
    else{
-  alert(`Well Done ${data.nickname} you sunk all ships in ${data.playerGuess} guesses`);
+  alert(`Well Done ${userInfo.pop().nickname} you sunk all ships in ${numOfGuesses} guesses`);
    }
- })
+
 }
-
-
+      )
+     }
     return true;
     }
 
