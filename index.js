@@ -1,10 +1,45 @@
 const URLAPI = "https://api.chucknorris.io/jokes/random";
+const serverURL=" http://localhost:3000/leaderboard";
 async function makeRequest(url) {
   let chuckJoke= await fetch(url)
 
 return chuckJoke;
 
 }
+//Post username and highscore
+function getUserName(){
+let nameOfPlayer;
+  const inputForm = document.querySelector('form');
+
+  inputForm.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const input = document.querySelector('input#nickname');
+
+    nameOfPlayer=input.value;
+
+
+
+  });
+  inputForm.reset();
+
+
+}
+
+console.log(`name is `,getUserName())
+
+
+
+function jokeIfMoreThan20Guesses(){
+  let name=getUserName();
+makeRequest(URLAPI)
+.then((joke)=>joke.json())
+.then(((norrisJoke)=>{
+  console.log(`All dotcoms sunk`)
+alert(`${name} your reward is ${norrisJoke}`)
+}))
+}
+
+let numOfGuesses=0;
 const model = {
   boardSize: 7,
   numShips: 3,
@@ -16,34 +51,42 @@ const model = {
   { locations: [0, 0, 0], hits: ["", "", ""] ,numOfHits:0},
   { locations: [0, 0, 0], hits: ["", "", ""] ,numOfHits:0} ],
   }
-  generateShipLocations ()
 
+console.log(generateShipLocations());
 
-document.addEventListener(`DOMContentLoaded`,buttonPressed)
+document.addEventListener(`DOMContentLoaded`,buttonPressed);
 
   let message=document.querySelector(`#gameplay`);
 
   let guesses=document.getElementsByClassName(`battleship`);
-  console.log(guesses)
+
 
   let view=document.createElement(`h5`);
+  for(let guessButton of guesses){
 
-function launchGame(){
- let start= document.querySelector(`startGame`);
- console.log(start);
+    guessButton.addEventListener(`click`,buttonPressed)
 
-}
+
+    }
+
+
+
+
+
+
 function buttonPressed(e){
 
+
   let userGuess=e.target.id;
+  numOfGuesses++;
 
 
 
-    for (let i = 0; i < model.numShips; i++) {
+  for (let i = 0; i < model.numShips; i++) {
 
     let ship = model.ships[i];
 
-    console.log(`Ship ${i} is `,ship)
+
 
     let index = ship.locations.indexOf(userGuess);
 
@@ -55,19 +98,29 @@ function buttonPressed(e){
 
      view.textContent=`hit`;
      e.target.textContent='hit'
-e.target.backgroundColor=`red`
+
 
      message.append(view);
 
     if (isSunk(ship)) {
 
     view.innerHTML=`You sank my battleship`;
-
     message.append(view);
+
+
 
     model.shipsSunk++;
 
+
     }
+     if(model.shipsSunk===3){
+      if(numOfGuesses>20){
+        jokeIfMoreThan20Guesses(userName);
+       }
+       else{
+      alert(`Well Done ${userName} you sunk all ships in ${userGuess} guesses`);
+       }
+     }
 
     return true;
     }
@@ -78,16 +131,8 @@ e.target.backgroundColor=`red`
 
     return false;
 
+ }
 
-
-}
-
-for(let guessButton of guesses){
-
-guessButton.addEventListener(`click`,buttonPressed)
-
-
-}
 
 
     let isSunk=function(ship) {
@@ -128,14 +173,14 @@ function generateShip () {
   // Generate a starting location for a horizontal ship
   row = Math.floor(Math.random() * model.boardSize);
   col = Math.floor(Math.random() * (model.boardSize - model.shipLength));
-  console.log(`For horizontal ship row is ${row} column is  ${col}    `)
+
   } else {
 
   // Generate a starting location for a vertical ship
   row = Math.floor(Math.random() * (model.boardSize - model.shipLength));
 
 col = Math.floor(Math.random() * model.boardSize);
-console.log(`For vertical ship row is ${row} column is  ${col}    `)
+
 }
 
 let newShipLocations = [];
@@ -143,11 +188,10 @@ for (let i = 0; i < model.shipLength; i++) {
 if (direction === 1) {
 
 newShipLocations.push(row + "" + (col + i));
-console.log(` For horizontal ship row is ${row} and col + i is ${col + i}New ships location is ${newShipLocations}`)
+
 
 } else {
 newShipLocations.push((row + i) + "" + col);
-console.log(`For vertical ship  row is ${row + i} and col + i is ${col}New ships location is ${newShipLocations}`)
 
 }
 
