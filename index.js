@@ -139,7 +139,7 @@ function buttonPressed(e){
     jokeIfMoreThan20Guesses().then((someJoke)=>someJoke.json())
     .then((someJoke)=>{
 
-  return alert(`${userInfo.pop().nickname} you exceeded  20 guesses ${someJoke.value}`);
+  return alert(`${userInfo.pop().nickname} you exceeded  20 guesses ,here's a light note for you : ${someJoke.value}`);
     })
   }
 
