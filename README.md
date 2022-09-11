@@ -12,8 +12,11 @@ cd into json-server-template
 cd db
 json-server --watch db.json
 
-npm run dev
+
 ```
+## live link
+Battleship game link [ https://gakurualex.github.io/Phase-1-Project/]
+
 ## Technologies
 Project is created with:
 * Html
